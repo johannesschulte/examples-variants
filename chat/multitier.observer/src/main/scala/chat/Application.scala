@@ -1,7 +1,6 @@
 package chat
 
 import util._
-
 import loci._
 import loci.basicTransmitter._
 import loci.serializable.upickle._
@@ -13,6 +12,7 @@ import scala.collection.mutable.WeakHashMap
 import scala.util.Random
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
 
 
 @multitier
@@ -109,7 +109,9 @@ object Application {
 
   val messageReceived = placed[Node].local { implicit! => Observable((0, "")) }
 
-  def sendMessage(message: String) = placed[Node].local { implicit! =>
+  def sendMessage(message2: String) = placed[Node].local { implicit! =>
+    val length: Int = message2.length
+    val message = message2 + TwoAdderShim.callAdd(length)
     selectedChatId.get foreach { selectedChatId =>
       val node = remote[Node].connected collectFirst {
         case node if chatIndex getId node contains selectedChatId => node
@@ -120,6 +122,7 @@ object Application {
         remote.on(node) call receiveMessage(message)
       }
     }
+
   }
 
   def receiveMessage(message: String) = placed[Node].sbj { implicit! => node: Remote[Node] =>
