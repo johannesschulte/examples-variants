@@ -13,9 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-var TeaVM = TeaVM || {};
-TeaVM.wasm = function() {
     let lineBuffer = "";
     function putwchar(charCode) {
         if (charCode === 10) {
@@ -54,21 +51,11 @@ TeaVM.wasm = function() {
         obj.teavmMath = Math;
     }
 
-    function run(path, options) {
-        if (!options) {
-            options = {};
-        }
+let importObj = {};
+importDefaults(importObj);
 
-        let callback = typeof options.callback !== "undefined" ? options.callback : function() {};
-        let errorCallback = typeof options.errorCallback !== "undefined" ? options.errorCallback : function() {};
 
-        let importObj = {};
-        importDefaults(importObj);
-        if (typeof options.installImports !== "undefined") {
-            options.installImports(importObj);
-        }
-	
-	var buffer = new Uint8Array([0,97,115,109,1,0,0,0,1,19,4,96,1,127,1,127
+var buffer = new Uint8Array([0,97,115,109,1,0,0,0,1,19,4,96,1,127,1,127
 ,96,0,0,96,0,1,127,96,2,127,127,1,127,3,20,19
 ,0,1,1,2,3,0,0,0,0,0,0,0,0,0,0,0
 ,1,1,1,4,4,1,112,0,19,5,6,1,1,128,1,128
@@ -284,21 +271,6 @@ TeaVM.wasm = function() {
 ,105,116,36,111,114,103,95,103,116,101,97,118,109,95,103,98
 ,97,99,107,101,110,100,95,103,119,97,115,109,95,103,87,97
 ,115,109,82,117,110,116,105,109,101,18,9,95,95,115,116,97
-,114,116,95,95]);
-	var ins = new WebAssembly.Instance(new WebAssembly.Module(buffer), importObj);
-	return ins.exports;
-    }
+			     ,114,116,95,95]);
 
-    return { importDefaults: importDefaults, run: run };
-}();
-
-function stringToArrayBuffer(str) {
-    var buf = new ArrayBuffer(str.length);
-    var bufView = new Uint8Array(buf);
-
-    for (var i=0, strLen=str.length; i<strLen; i++) {
-        bufView[i] = str.charCodeAt(i);
-    }
-
-    return buf;
-}
+var wasmExports = (new WebAssembly.Instance(new WebAssembly.Module(buffer), importObj)).exports;

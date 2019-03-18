@@ -18,7 +18,7 @@ import scala.concurrent._
 @multitier
 object Application {
   trait Registry extends Peer { type Tie <: Multiple[Node] }
-  trait Node extends Peer { type Tie <: Multiple[Node] with Optional[Registry] with Single[Wasm]
+  trait Node extends Peer { type Tie <: Multiple[Node] with Optional[Registry] with Optional[Wasm]
     val ui: FrontEnd }
 
   trait Wasm extends Peer { type Tie <: Single[Node] }
@@ -111,11 +111,11 @@ object Application {
 
   val messageReceived = placed[Node].local { implicit! => Observable((0, "")) }
 
-  def add2(in : Int) : Int on Wasm = in+2
+  def addTwo(in : Int) : Int on Wasm = in+2
 
   def sendMessage(message2: String) = placed[Node].local { implicit! =>
     val length: Int = message2.length
-    val len2 = remote call add2(length)
+    val len2 = remote[Wasm] call addTwo(length)
     val message = message2 + len2
     selectedChatId.get foreach { selectedChatId =>
       val node = remote[Node].connected collectFirst {

@@ -4,7 +4,7 @@ version in ThisBuild := "0.0.0"
 
 scalaVersion in ThisBuild := "2.11.8"
 
-scalacOptions in ThisBuild ++= Seq("-feature", "-deprecation", "-unchecked", "-Xlint")
+scalacOptions in ThisBuild ++= Seq("-feature", "-deprecation", "-unchecked", "-Xlint", "-Ymacro-debug-lite")
 
 //resolvers in ThisBuild += Resolver.bintrayRepo("stg-tud", "maven")
 
@@ -29,12 +29,12 @@ val librariesMultitier = libraryDependencies ++= Seq(
   "org.scala-js" %%%! "scalajs-dom" % "0.9.1",
   "com.lihaoyi" %%% "upickle" % "0.4.4",
   "de.tuda.stg" %%% "rescala" % "0.19.0"
-//  "de.tuda.stg" %%% "scala-loci-core" % "0.1.0",
-//  "de.tuda.stg" %%% "scala-loci-serializable-upickle" % "0.1.0",
-//  "de.tuda.stg" %%% "scala-loci-network-ws-akka" % "0.1.0"
-//  "de.tuda.stg" %%% "scala-loci-network-webrtc" % "0.1.0",
-//  "de.tuda.stg" %%% "scala-loci-transmitter-basic" % "0.1.0",
-//  "de.tuda.stg" %%% "scala-loci-transmitter-rescala" % "0.1.0"
+  //"de.tuda.stg" %%% "scala-loci-core" % "0.1.0",
+  //"de.tuda.stg" %%% "scala-loci-serializable-upickle" % "0.1.0",
+  //"de.tuda.stg" %%% "scala-loci-network-ws-akka" % "0.1.0",
+  //"de.tuda.stg" %%% "scala-loci-network-webrtc" % "0.1.0",
+  //"de.tuda.stg" %%% "scala-loci-transmitter-basic" % "0.1.0",
+  //"de.tuda.stg" %%% "scala-loci-transmitter-rescala" % "0.1.0"
 )
 
 val librariesClientServed = Seq(
