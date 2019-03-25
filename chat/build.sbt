@@ -28,7 +28,8 @@ val librariesMultitier = libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % "10.0.5",
   "org.scala-js" %%%! "scalajs-dom" % "0.9.1",
   "com.lihaoyi" %%% "upickle" % "0.4.4",
-  "de.tuda.stg" %%% "rescala" % "0.19.0"
+  "de.tuda.stg" %%% "rescala" % "0.19.0",
+  "org.teavm" % "teavm-interop" % "0.5.1"
   //"de.tuda.stg" %%% "scala-loci-core" % "0.1.0",
   //"de.tuda.stg" %%% "scala-loci-serializable-upickle" % "0.1.0",
   //"de.tuda.stg" %%% "scala-loci-network-ws-akka" % "0.1.0",
