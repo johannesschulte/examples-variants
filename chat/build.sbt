@@ -4,10 +4,11 @@ version in ThisBuild := "0.0.0"
 
 scalaVersion in ThisBuild := "2.11.8"
 
-scalacOptions in ThisBuild ++= Seq("-feature", "-deprecation", "-unchecked", "-Xlint", "-Ymacro-debug-lite")
+scalacOptions in ThisBuild ++= Seq("-feature", "-deprecation", "-unchecked", "-Xlint")
 
 //resolvers in ThisBuild += Resolver.bintrayRepo("stg-tud", "maven")
 
+resolvers in ThisBuild += Resolver.mavenLocal
 
 val librariesRescala = libraryDependencies +=
   "de.tuda.stg" %%% "rescala" % "0.19.0"
@@ -25,17 +26,13 @@ val librariesDom = libraryDependencies +=
   "org.scala-js" %%% "scalajs-dom" % "0.9.1"
 
 val librariesMultitier = libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-http" % "10.0.5",
-  "org.scala-js" %%%! "scalajs-dom" % "0.9.1",
-  "com.lihaoyi" %%% "upickle" % "0.4.4",
-  "de.tuda.stg" %%% "rescala" % "0.19.0",
-  "org.teavm" % "teavm-interop" % "0.5.1"
-  //"de.tuda.stg" %%% "scala-loci-core" % "0.1.0",
-  //"de.tuda.stg" %%% "scala-loci-serializable-upickle" % "0.1.0",
-  //"de.tuda.stg" %%% "scala-loci-network-ws-akka" % "0.1.0",
-  //"de.tuda.stg" %%% "scala-loci-network-webrtc" % "0.1.0",
-  //"de.tuda.stg" %%% "scala-loci-transmitter-basic" % "0.1.0",
-  //"de.tuda.stg" %%% "scala-loci-transmitter-rescala" % "0.1.0"
+  "org.teavm" % "teavm-interop" % "0.6.0-SNAPSHOT",
+  "de.tuda.stg" %%% "scala-loci-core" % "0.1.1-SNAPSHOT",
+  "de.tuda.stg" %%% "scala-loci-serializable-upickle" % "0.1.1-SNAPSHOT",
+  "de.tuda.stg" %%% "scala-loci-network-ws-akka" % "0.1.1-SNAPSHOT",
+  "de.tuda.stg" %%% "scala-loci-network-webrtc" % "0.1.1-SNAPSHOT",
+  "de.tuda.stg" %%% "scala-loci-transmitter-basic" % "0.1.1-SNAPSHOT",
+  "de.tuda.stg" %%% "scala-loci-transmitter-rescala" % "0.1.1-SNAPSHOT"
 )
 
 val librariesClientServed = Seq(
@@ -186,7 +183,7 @@ lazy val chatMultiObserveJS = (project in file("multitier.observer") / ".js"
   settings (commonDirectoriesScala, commonDirectoriesScalaJS)
   settings (settingsMultitier: _*)
   settings (scalaJSUseMainModuleInitializer in Compile := true)
-  enablePlugins ScalaJSPlugin)
+  enablePlugins(ScalaJSPlugin, sbtteavm.TeaVMPlugin))
 
 
 lazy val chatMultiReact = (project in file("multitier.reactive") / ".all"
