@@ -1,42 +1,16 @@
-# [ScalaLoci](http://scala-loci.github.io): Variants of Example Applications
+# Scala-Loci Wasm Example
+Chat Multitier Observer contains a working example of scala loci using WebAssembly.
 
-This repository contains a comparison of different variants of the same software.
+It requires the following libraries to be available (local Maven repository is supported as well and needed for TeaVM):
 
+https://github.com/johannesschulte/scala-loci Modified scala loci
+https://github.com/konsoletyper/teavm TeaVM. This is also required by the sbt-teavm so needs to be published first
+https://github.com/johannesschulte/sbt-teavm SBT plugin for TeaVM
 
-## Applications
+If all this is available, all messages send in the chat application should be appended with a number (length of the message +2). The "+2" is computed in WebAssembly, all code is generated from Application.scala.
 
-* [Pong](pong) implements the arcade Pong game. Additionally to the distributed
-  multiplayer versions, a local baseline is provided (where the user plays
-  against the computer). The distributed versions adopt a client–server model.
-  Both the server and the clients run on the JVM.
+The server can be run normally from within sbt.
 
-* [Shapes](shapes) is a collaborative drawing web application, where clients
-  connect to a central server. The server runs on the JVM while clients run in
-  the web browser.
+The client can be (re-)built with "clean teaVMWasm fastOptJS"
 
-* [P2P Chat](chat) is a P2P web chat application, which supports multiple
-  one-to-one chat sessions. Peers communicate directly in a P2P fashion after
-  discovering via a registry. The registry runs on the JVM while peers run in
-  the web browser.
-
-
-## Variants
-
-The communication mechanism is in the left column and the event processing strategy is in top row.
-
-              | **reactive** ¹                                   | **observer** ¹                                   | **observer (JS)** ²
-------------- | ------------------------------------------------ | ------------------------------------------------ | ----------------------------
-**(local)**   | [Pong](pong/src/main/scala/local/reactive)       | [Pong](pong/src/main/scala/local/observer)       |
-**RMI**       | [Pong](pong/src/main/scala/distributed/reactive) | [Pong](pong/src/main/scala/distributed/observer) |
-**WebSocket** | [Shapes](shapes/scalajs.reactive)                | [Shapes](shapes/scalajs.observer)                | [Shapes](shapes/traditional)
-**WebRTC**    | [P2P Chat](chat/scalajs.reactive)                | [P2P Chat](chat/scalajs.observer)                | [P2P Chat](chat/traditional)
-**Akka**      | [Pong](pong/src/main/scala/actor/reactive)       | [Pong](pong/src/main/scala/actor/observer)       |
-              | [Shapes](shapes/actor.reactive)                  | [Shapes](shapes/actor.observer)                  |
-              | [P2P Chat](chat/actor.reactive)                  | [P2P Chat](chat/actor.observer)                  |
-**ScalaLoci** | [Pong](pong/src/main/scala/multitier/reactive)   | [Pong](pong/src/main/scala/multitier/observer)   |
-              | [Shapes](shapes/multitier.reactive)              | [Shapes](shapes/multitier.observer)              |
-              | [P2P Chat](chat/multitier.reactive)              | [P2P Chat](chat/multitier.observer)              |
-
-¹ All code is in Scala or ScalaLoci. The client is compiled to JavaScript via [Scala.js](http://www.scala-js.org/).
-
-² Uses handwritten JavaScript for the client-side, Scala for the server side.
+The resulting HTML should be in "chat/multitier.observer/.js/target/scala-2.11/classes/index.xhtml" with correct links to the generated JS files.
